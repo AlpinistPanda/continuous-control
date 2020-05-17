@@ -38,23 +38,21 @@ Dense(1)
 Output:  
 ```
 
+In the simulator, the agent takes an action from the distribution randomly.
+After the actions the agent updates the model and it returns likelihood of
+actions of distribution.
+The average of the normal distribution uses the output of the actor model. Also
+variance parameters of normal distribution is one of the model parameters. output
+of the agents changes depending on the normal distribution, the agent can find
+an optimal place in between exploration and exploitation.
 
-The output of actor model is used by mean parameter of normal distribution.
-When agent plays in simulator, actor draws actions from distribution at random.
-When agent updates model based on actions already drew from the model,
-actor returns likelihood of actions of distribution.
-(Variance parameters of normal distribution are also model parameters)
+PPO is a policy based model that has a balance between ease of implementation, sample complexity and ease of tuning.
+https://openai.com/blog/openai-baselines-ppo/. It tries to compute and update for each step that minimizes the cost function
+while making sure that deviation from the previous policy is small. Which is good balance of exploration and exploitation.
 
-Because output of agents fluctuates based on normal distribution, agent can reach
-optimal parameters in the balance between exploration and exploitation.
-
-PPO is the policy-based method derived from **TRPO (Trust Region Policy Optimization)**.
-PPO calculates gradient based on policy likelihood ratio between old one and updated new one.
-PPO uses clipping for likelihood ratios to prevent gradient explosion.
-
-GAE is the method to calculate "generalized advantage", which balance
+GAE is the method for measuring "generalized advantage", which balance
 between TD-error and discounted sum of rewards.
-In this implementations, advantage is calculated based on GAE.
+In this project, advantage is calculated based on GAE.
 
 Hyper-parameters
 
@@ -69,3 +67,12 @@ Hyper-parameters
   - Learning rate: 1e-4
   - epoch: 10
   - mini batch size: 128
+
+
+## Future Improvements
+
+- Trials with several other algorithms. I implemented my model with PPO/GAE agent. I want to try DDPG algorithm. Also I want to try Trust Region Policy Optimization, Proximal Policy Optimization (PPO), or Distributed Distributional Deterministic Policy Gradients (D4PG). The results of these 4 algortihms can be compared.
+
+- I want to try adding Q-Prop which I guess will improve my algortihm and check on the improvement.
+
+- I want to try adding prioritized experience replay which selects experiences with respect to the error rate. This might lead to an improvement in convergence of the training.
